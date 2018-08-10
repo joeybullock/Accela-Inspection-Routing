@@ -37,8 +37,8 @@ table {
     border-bottom: 1px solid black;
 }
 
-#map-canvas, #mapSection {
+.mapSection {
     height: 500px;
-    width: 1000px;
+    width: 809px;
     position: relative;
 }

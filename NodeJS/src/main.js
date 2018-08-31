@@ -1,5 +1,21 @@
 //  Declare variables
+var express = require("express");
+var bodyParcer = require("body-parser");
 var https = require("https");
+var app = express();
+
+var accelaOptions = {
+    host: 'apis.accela.com',
+    port: 443,
+    path: 'v4/inspections?module=Building',
+    method: 'GET'
+};
+var accelaHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'x-accela-appid': '636603438780966771',
+    'Authorization': 'fbD2fS4UE1u2xUc9CjTNRnGthIk6SVvBvJxD7SF8XzgtYRTgzOD3EkLA3ovmFarM9zTXVpX4oalW1L3q6jsE_bTQLNSm5Oa297_seZeFbQnOdVd2sZTLkuIMAfTdQtnStKGtACPJ0Rxck0W_EdvT4LpJB_6Y44fWYXxjdbBgZkiHSp0zB5ER9PPegOtdM1I8p4wBdRrXcqmS6HguJR6z4DmugXZv4SLnJISYhYzSco47zQm6--CiDpgVGATZ52gfzhTwIyg8NJW6iaA0IQHprZUbRFz_abXOuaxgi8eoKPQQKG4pqWFIKpY6bv8c4CiT9zZEn08juU5CJjStpw1Yg3cz0D4vCYgZfuccLC9s2SNS4Gaz0Pl1Rr-RPVJs6hf1uqLku2SFoNtiYaxFbkIdPuT7o5JbLMU6qxzOHh-B4OruJoO7897n6QgRE7mhEkLY0'
+};
 
 //  API variables
 console.log('running');
@@ -67,14 +83,8 @@ function filterResults(resultAll) {
 //  Call Accela API
 function search(searchTerm, startDate, endDate) {
     API_URL = `${API_URL}${searchTerm}${startDate}${endDate}`;
-    request = https.request(API_URL, {
-        method: 'GET',
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'x-accela-appid': '636603438780966771',
-            'Authorization': 'dka0rIlqvKz2tH4t33xEKACBuAEHYd1t-YlkjxdxFbAQTljNlbnNR-nu1kzRFUNmB7jCSY72rciYwsGJfw7FwZvspcn0b2ORZ55AE2niDKEY-xBoBWATSFSMdGyRxcMyOmbXXRa-MAc2XXv8IgxIvU3YDe9IgHx8N_JMhPHJWKKj8Qe4Sku2ZROxfjg4qYHsGWFUSBnhCTsIOUMb5HLp6Cz87vrFtikk8M6QYr6Vly0hdWv0gUOuTUUcI8IUoZvxFjcw549XIQLpSjcvZgaiNtJLGu2xGHo4wca2Th_tgkGvhXQlSZjdFihzwPVj5g86WQi6Sa_M34ztLC7_tBOiRUhDsS_ggQLMhEPm09P_yh57NO2_xU9_p8qxyMDB-ABuoH4W6WO2F1aVwBXe0iWmshVjKvxOOuJgACoO8X3Dzpo1'
-        })
+    request = https.request(accelaOptions, {
+        headers: accelaHeaders
     });
     return fetch(request)
     .then(response => response.json())
@@ -113,6 +123,8 @@ function calcRoute(mapsReadyAddresses) {
 }
 
 formSubmitted();
+
+
 /*function initialize() {
     directionsDisplay.setMap(map);
 }
